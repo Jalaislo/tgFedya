@@ -26,6 +26,7 @@ public class TgFedyaApplication {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(tgFedyaBot); // Используем бин, созданный Spring
+
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
