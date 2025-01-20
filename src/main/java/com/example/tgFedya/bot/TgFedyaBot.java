@@ -3,7 +3,11 @@ package com.example.tgFedya.bot;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
+import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
+import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
+import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -12,15 +16,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component
-public class TgFedyaBot extends TelegramLongPollingBot {
+public class TgFedyaBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
-    private final String botToken;
+    private final TelegramClient telegramClient;
+    private final String botToken = ;
     private final String botUsername;
 
-    public TgFedyaBot(@Value("${telegram.bot.token}") String botToken,
-                      @Value("${telegram.bot.username}") String botUsername) {
-        this.botToken = botToken;
-        this.botUsername = botUsername;
+    public TgFedyaBot () {
+        telegramClient = new OkHttpTelegramClient(getBotToken());
     }
 
     private static final Logger logger = LoggerFactory.getLogger(TgFedyaBot.class);
